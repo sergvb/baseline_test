@@ -1,2 +1,3 @@
 clc, clear all;
 
+ubxdump();

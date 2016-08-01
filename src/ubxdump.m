@@ -3,10 +3,10 @@ function ubxdump()
 % TOW - epoch counter, epoch length=6sec
 % all TOW fields in sec!!!
 
-gnssLib = getFullPath('..\\softgnss') ;
-gnssLibGeoFn = getFullPath('..\\softgnss\\geoFunctions') ;
-gnssLibInc = getFullPath('..\\softgnss\\include') ;
-addpath(gnssLib, gnssLibGeoFn, gnssLibInc) ;
+% gnssLib = getFullPath('..\\softgnss') ;
+% gnssLibGeoFn = getFullPath('..\\softgnss\\geoFunctions') ;
+% gnssLibInc = getFullPath('..\\softgnss\\include') ;
+% addpath(gnssLib, gnssLibGeoFn, gnssLibInc) ;
 
 sattelites = {} ;
 measurments_count = 0 ;
@@ -17,8 +17,8 @@ ubxGeodeticCount = 0 ;
 ubxGeodetic = zeros(7,1000) ;
 clc ;
 % clear all ;
-outFile = '..\data\RS_matv_50mm_02.mat' ;
-f = fopen('..\data\RS_matv_50mm_02.bin','r') ; % ..\data\rs_004.bin
+outFile = '..\data\RS_matv_50mm_01.mat' ;
+f = fopen('..\data\RS_matv_50mm_01.bin','r') ; % ..\data\rs_004.bin
 fout = fopen('ubx_out.txt','w+t') ;
 n_show=0 ;
 n_eph_t = 0 ;
@@ -256,15 +256,15 @@ if f~=-1
                                     switch SFID
                                         case 1
                                             if hcrc_ok(3)==1
-                                                sattelites{s_i} = on_sf1(fout, bin_subframe,sattelites{s_i}) ;
+%                                                 sattelites{s_i} = on_sf1(fout, bin_subframe,sattelites{s_i}) ;
                                             end                                        
                                         case 2
                                             if hcrc_ok(3)==1
-                                                sattelites{s_i} = on_sf2(fout, bin_subframe,sattelites{s_i}) ;
+%                                                 sattelites{s_i} = on_sf2(fout, bin_subframe,sattelites{s_i}) ;
                                             end                                        
                                         case 3
                                             if hcrc_ok(3)==1
-                                                sattelites{s_i} = on_sf3(fout, bin_subframe, sattelites{s_i}) ;
+%                                                 sattelites{s_i} = on_sf3(fout, bin_subframe, sattelites{s_i}) ;
                                             end                                        
                                     end
 
@@ -450,7 +450,7 @@ ubxEcef = ubxEcef(:,1:ubxEcefCount) ;
 ubxGeodetic = ubxGeodetic(:,1:ubxGeodeticCount) ;
 save(outFile,'measurments_queue','ubxEcef','ubxEcefCount', 'ubxGeodetic', 'ubxGeodeticCount') ;
 fclose(fout) ;
-rmpath(gnssLib) ;
+% rmpath(gnssLib) ;
 
 function v = bin2int(binstr)
 N = length(binstr) ;
