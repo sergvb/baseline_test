@@ -3,11 +3,6 @@ function ubxdump()
 % TOW - epoch counter, epoch length=6sec
 % all TOW fields in sec!!!
 
-% gnssLib = getFullPath('..\\softgnss') ;
-% gnssLibGeoFn = getFullPath('..\\softgnss\\geoFunctions') ;
-% gnssLibInc = getFullPath('..\\softgnss\\include') ;
-% addpath(gnssLib, gnssLibGeoFn, gnssLibInc) ;
-
 sattelites = {} ;
 measurments_count = 0 ;
 measurments_queue = {} ;
@@ -33,7 +28,8 @@ if f~=-1
         %    break ;
         %end
         if ftell(f)>n_show
-            fprintf(repmat('\b',1,160)) ; fprintf( '<FILE POS>%07d <RAW MEASURMENT_t:>%10.3f <RAW MEASURMENTS COLLECTED:>%4d <UBX_ECEF:>%4d <UBX_GEODETIC:>%4d', n_show, n_measurment_t, measurments_count, ubxEcefCount, ubxGeodeticCount ) ;
+            fprintf(repmat('\b',1,160)) ; 
+            fprintf( '<FILE POS>%07d <RAW MEASURMENT_t:>%10.3f <RAW MEASURMENTS COLLECTED:>%4d <UBX_ECEF:>%4d <UBX_GEODETIC:>%4d', n_show, n_measurment_t, measurments_count, ubxEcefCount, ubxGeodeticCount ) ;
             n_show = n_show+10000 ;
         end
         % Read sync char 1        
@@ -450,7 +446,6 @@ ubxEcef = ubxEcef(:,1:ubxEcefCount) ;
 ubxGeodetic = ubxGeodetic(:,1:ubxGeodeticCount) ;
 save(outFile,'measurments_queue','ubxEcef','ubxEcefCount', 'ubxGeodetic', 'ubxGeodeticCount') ;
 fclose(fout) ;
-% rmpath(gnssLib) ;
 
 function v = bin2int(binstr)
 N = length(binstr) ;
