@@ -1,5 +1,5 @@
 function packet = readPacket(fileID)
-    packet = struct;
+    packet = struct();
     if synchronise(fileID) == 1
         [headerBufer, count] = fread(fileID, 4, '*uint8');
         
@@ -30,10 +30,33 @@ function packet = readPacket(fileID)
             return
         end
         
-        packet.Class = headerBufer(1);
-        packet.MessageID = headerBufer(2);
+        id = typecast(headerBufer(1:2), 'uint16');
+        payload = parsePayload(id, payloadBufer);
+        
+        if isempty(fieldnames(payload))
+            % fprintf('Can not parse the packet''s payload\n');
+            return
+        end
+        
+        packet = payload;
+        packet.Id = id;
     else
         fprintf('Not synchronised\n');
+    end
+end
+
+function payload = parsePayload(id, bufer)
+    switch id
+        case ubx.Message.RXM_RAWX
+            payload = parseRxmRawx(bufer);
+        case ubx.Message.RXM_SFRBX
+            payload = parseRxmSfrbx(bufer);
+        case ubx.Message.NAV_POSECEF
+            payload = parseNavPosEcef(bufer);
+        case ubx.Message.NAV_POSLLH
+            payload = parseNavPosLlh(bufer);
+        otherwise
+            payload = struct();
     end
 end
 
