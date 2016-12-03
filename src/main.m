@@ -1,12 +1,11 @@
 clc, clear all;
 
-fileID = fopen('..\data\RS_matv_50mm_01.bin');
+filter = [ubx.Message.RXM_RAWX, ubx.Message.NAV_POSECEF];
 
-while ~feof(fileID)
-    packet = ubx.readPacket(fileID);
-    if ~isempty(fieldnames(packet)) && packet.Id == ubx.Message.NAV_POSECEF
-        disp(packet);
-    end
-end
+dataA = readData('..\data\RS_matv_50mm_01.bin', filter);
+dataB = readData('..\data\RS_matv_50mm_02.bin', filter);
 
-fclose(fileID);
+groupA = groupPackets(dataA);
+groupB = groupPackets(dataB);
+
+X = computeDifferences(groupA, groupB);
